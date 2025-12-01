@@ -1,0 +1,141 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
+use Inertia\Inertia;
+use Inertia\Response;
+
+class $CLASS$ extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request): Response
+    {
+        // TODO: Uncomment and adjust when model is created
+        // $query = $MODEL$::query();
+        //
+        // // Search
+        // if ($request->has('search')) {
+        //     $search = $request->input('search');
+        //     $query->where(function($q) use ($search) {
+        //         $q->where('name', 'like', "%{$search}%");
+        //     });
+        // }
+        //
+        // // Sorting
+        // $sortField = $request->input('sort_field', 'created_at');
+        // $sortOrder = $request->input('sort_order', 'desc');
+        // $query->orderBy($sortField, $sortOrder);
+        //
+        // // Pagination
+        // $items = $query->paginate($request->input('per_page', 15))
+        //     ->withQueryString();
+
+        return Inertia::render('$LOWER_NAME$::index', [
+            'items' => [],
+            'filters' => $request->only(['search', 'sort_field', 'sort_order']),
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('$LOWER_NAME$::create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        // TODO: Add validation and create logic
+        // $validated = $request->validate([
+        //     'name' => 'required|string|max:255',
+        // ]);
+        // $MODEL$::create($validated);
+
+        return redirect()
+            ->route('$LOWER_NAME$.index')
+            ->with('success', '$STUDLY_NAME$ created successfully');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show($id): Response
+    {
+        // TODO: Fetch model when created
+        // $$LOWER_NAME$ = $MODEL$::findOrFail($id);
+
+        return Inertia::render('$LOWER_NAME$::show', [
+            'item' => null,
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id): Response
+    {
+        // TODO: Fetch model when created
+        // $$LOWER_NAME$ = $MODEL$::findOrFail($id);
+
+        return Inertia::render('$LOWER_NAME$::edit', [
+            'item' => null,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id): RedirectResponse
+    {
+        // TODO: Add validation and update logic
+        // $validated = $request->validate([
+        //     'name' => 'required|string|max:255',
+        // ]);
+        // $$LOWER_NAME$ = $MODEL$::findOrFail($id);
+        // $$LOWER_NAME$->update($validated);
+
+        return redirect()
+            ->route('$LOWER_NAME$.index')
+            ->with('success', '$STUDLY_NAME$ updated successfully');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id): RedirectResponse
+    {
+        // TODO: Delete logic when model is created
+        // $MODEL$::findOrFail($id)->delete();
+
+        return redirect()
+            ->route('$LOWER_NAME$.index')
+            ->with('success', '$STUDLY_NAME$ deleted successfully');
+    }
+
+    /**
+     * Bulk delete resources.
+     */
+    public function bulkDestroy(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer',
+        ]);
+
+        // TODO: Delete logic when model is created
+        // $MODEL$::whereIn('id', $validated['ids'])->delete();
+
+        return redirect()
+            ->route('$LOWER_NAME$.index')
+            ->with('success', 'Items deleted successfully');
+    }
+}

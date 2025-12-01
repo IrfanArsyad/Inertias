@@ -1,0 +1,110 @@
+<template>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">$STUDLY_NAME$ Management</h5>
+                    <Link :href="route('$LOWER_NAME$.create')" class="btn btn-primary">
+                        <i class="bx bx-plus me-1"></i> Create $STUDLY_NAME$
+                    </Link>
+                </div>
+                <div class="card-body">
+                    <div v-if="items && items.length > 0" class="table-responsive">
+                        <!-- Table content when items exist -->
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Created At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in itemsData" :key="item.id">
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>
+                                        <span class="badge" :class="statusClass(item.status)">
+                                            {{ item.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ formatDate(item.created_at) }}</td>
+                                    <td>
+                                        <div class="d-flex gap-1">
+                                            <Link :href="route('$LOWER_NAME$.show', item.id)" class="btn btn-sm btn-info">
+                                                <i class="bx bx-show"></i>
+                                            </Link>
+                                            <Link :href="route('$LOWER_NAME$.edit', item.id)" class="btn btn-sm btn-primary">
+                                                <i class="bx bx-edit"></i>
+                                            </Link>
+                                            <button @click="confirmDelete(item)" class="btn btn-sm btn-danger">
+                                                <i class="bx bx-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div v-else class="text-center py-5">
+                        <i class="bx bx-folder-open display-1 text-muted"></i>
+                        <p class="text-muted mt-3">No data available yet.</p>
+                        <Link :href="route('$LOWER_NAME$.create')" class="btn btn-primary">
+                            <i class="bx bx-plus me-1"></i> Create First $STUDLY_NAME$
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { Link, router } from '@inertiajs/vue3';
+import { computed } from 'vue';
+
+const props = defineProps({
+    items: {
+        type: [Object, Array],
+        default: () => ([])
+    },
+    filters: {
+        type: Object,
+        default: () => ({})
+    }
+});
+
+// Handle both paginated object and plain array
+const itemsData = computed(() => {
+    if (Array.isArray(props.items)) {
+        return props.items;
+    }
+    return props.items?.data || [];
+});
+
+const statusClass = (status) => {
+    const classes = {
+        'active': 'bg-success',
+        'inactive': 'bg-secondary',
+        'pending': 'bg-warning'
+    };
+    return classes[status] || 'bg-secondary';
+};
+
+const formatDate = (date) => {
+    if (!date) return '-';
+    return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
+};
+
+const confirmDelete = (item) => {
+    if (confirm('Are you sure you want to delete this item?')) {
+        router.delete(route('$LOWER_NAME$.destroy', item.id));
+    }
+};
+</script>

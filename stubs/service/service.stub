@@ -1,0 +1,150 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use $MODEL_NAMESPACE$\$MODEL$;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+class $CLASS$
+{
+    /**
+     * Get all items with optional filtering.
+     */
+    public function getAll(array $filters = [])
+    {
+        $query = $MODEL$::query();
+
+        if (isset($filters['search'])) {
+            $query->search($filters['search']);
+        }
+
+        if (isset($filters['status'])) {
+            $query->status($filters['status']);
+        }
+
+        if (isset($filters['sort_field']) && isset($filters['sort_order'])) {
+            $query->orderBy($filters['sort_field'], $filters['sort_order']);
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * Get paginated items.
+     */
+    public function getPaginated(int $perPage = 15, array $filters = [])
+    {
+        $query = $MODEL$::query();
+
+        if (isset($filters['search'])) {
+            $query->search($filters['search']);
+        }
+
+        if (isset($filters['status'])) {
+            $query->status($filters['status']);
+        }
+
+        if (isset($filters['sort_field']) && isset($filters['sort_order'])) {
+            $query->orderBy($filters['sort_field'], $filters['sort_order']);
+        }
+
+        return $query->paginate($perPage);
+    }
+
+    /**
+     * Find item by ID.
+     */
+    public function findById(int $id)
+    {
+        return $MODEL$::findOrFail($id);
+    }
+
+    /**
+     * Create new item.
+     */
+    public function create(array $data)
+    {
+        try {
+            DB::beginTransaction();
+
+            $item = $MODEL$::create($data);
+
+            // Add any additional logic here
+
+            DB::commit();
+
+            return $item;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error creating $LOWER_NAME$: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Update item.
+     */
+    public function update(int $id, array $data)
+    {
+        try {
+            DB::beginTransaction();
+
+            $item = $this->findById($id);
+            $item->update($data);
+
+            // Add any additional logic here
+
+            DB::commit();
+
+            return $item;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error updating $LOWER_NAME$: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Delete item.
+     */
+    public function delete(int $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $item = $this->findById($id);
+            $item->delete();
+
+            // Add any additional logic here
+
+            DB::commit();
+
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error deleting $LOWER_NAME$: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Bulk delete items.
+     */
+    public function bulkDelete(array $ids)
+    {
+        try {
+            DB::beginTransaction();
+
+            $MODEL$::whereIn('id', $ids)->delete();
+
+            DB::commit();
+
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error bulk deleting $LOWER_NAME$: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+}

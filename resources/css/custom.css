@@ -1,0 +1,45 @@
+/* Theme Switcher Dropdown */
+.dropdown-styles .dropdown-item.active {
+    background-color: rgba(115, 103, 240, 0.08);
+    color: #696cff;
+}
+
+.dropdown-styles .dropdown-item.active i {
+    color: #696cff;
+}
+
+/* Dark mode specific styles */
+.dark-style .dropdown-styles .dropdown-item.active {
+    background-color: rgba(115, 103, 240, 0.16);
+    color: #696cff;
+}
+
+/* Ensure sidebar scrollbar appears on hover */
+.layout-menu .menu-inner {
+    overflow-y: auto;
+}
+
+.layout-menu .menu-inner::-webkit-scrollbar {
+    width: 6px;
+}
+
+.layout-menu .menu-inner::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.layout-menu .menu-inner::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.layout-menu:hover .menu-inner::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dark-style .layout-menu .menu-inner::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-style .layout-menu:hover .menu-inner::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4);
+}

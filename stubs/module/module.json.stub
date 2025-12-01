@@ -1,0 +1,11 @@
+{
+    "name": "$MODULE_NAME$",
+    "alias": "$LOWER_NAME$",
+    "description": "$MODULE_DESCRIPTION$",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "$MODULE_NAMESPACE$\\$MODULE_NAME$\\app\\Providers\\$MODULE_NAME$ServiceProvider"
+    ],
+    "files": []
+}

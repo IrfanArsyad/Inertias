@@ -1,0 +1,36 @@
+{
+    "$schema": "https://www.schemastore.org/package.json",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@tailwindcss/vite": "^4.0.0",
+        "@vitejs/plugin-vue": "^6.0.2",
+        "axios": "^1.13.2",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^2.0.0",
+        "tailwindcss": "^4.0.0",
+        "terser": "^5.44.1",
+        "vite": "^7.0.7"
+    },
+    "dependencies": {
+        "@casl/ability": "^6.7.3",
+        "@casl/vue": "^2.2.2",
+        "@headlessui/vue": "^1.7.23",
+        "@inertiajs/progress": "^0.2.7",
+        "@inertiajs/vue3": "^2.2.19",
+        "@vueuse/core": "^14.1.0",
+        "apexcharts-clevision": "^3.28.5",
+        "flatpickr": "^4.6.13",
+        "lodash": "^4.17.21",
+        "pinia": "^3.0.4",
+        "prismjs": "^1.30.0",
+        "vue": "^3.5.25",
+        "vue-flatpickr-component": "^12.0.0",
+        "vue-prism-component": "^2.0.0",
+        "vue3-apexcharts": "^1.10.0"
+    }
+}

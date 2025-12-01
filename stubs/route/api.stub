@@ -1,0 +1,22 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your module. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group.
+|
+*/
+
+// Route::prefix('$LOWER_NAME$')->middleware(['api'])->name('api.$LOWER_NAME$.')->group(function () {
+//     Route::get('/', [$STUDLY_NAME$Controller::class, 'index'])->name('index');
+//     Route::get('/{id}', [$STUDLY_NAME$Controller::class, 'show'])->name('show');
+//     Route::post('/', [$STUDLY_NAME$Controller::class, 'store'])->name('store');
+//     Route::put('/{id}', [$STUDLY_NAME$Controller::class, 'update'])->name('update');
+//     Route::delete('/{id}', [$STUDLY_NAME$Controller::class, 'destroy'])->name('destroy');
+// });

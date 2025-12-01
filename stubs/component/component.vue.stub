@@ -1,0 +1,38 @@
+<template>
+    <div class="custom-component">
+        <!-- 
+            $MODULE$ Custom Component
+            
+            This is a template for creating module-specific Vue components.
+            Customize this component according to your module needs.
+        -->
+        <div class="card">
+            <div class="card-header">
+                <h5>{{ title }}</h5>
+            </div>
+            <div class="card-body">
+                <slot></slot>
+            </div>
+            <div v-if="$slots.footer" class="card-footer">
+                <slot name="footer"></slot>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+    title: {
+        type: String,
+        default: '$MODULE$ Component'
+    }
+});
+</script>
+
+<style scoped>
+.custom-component {
+    /* Add your custom styles here */
+}
+</style>

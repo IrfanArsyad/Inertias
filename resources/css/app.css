@@ -1,0 +1,16 @@
+/* Custom application styles */
+/* Template CSS already loaded in app.blade.php, only add custom overrides here if needed */
+
+/* Import custom styles */
+@import './custom.css';
+
+/* Ensure proper spacing for Inertia page transitions */
+.page-enter-active,
+.page-leave-active {
+    transition: opacity 0.3s;
+}
+
+.page-enter-from,
+.page-leave-to {
+    opacity: 0;
+}

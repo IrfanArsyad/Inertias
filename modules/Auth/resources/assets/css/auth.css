@@ -1,0 +1,30 @@
+/* Authentication Pages Styles */
+
+.authentication-wrapper {
+    display: flex;
+    flex-basis: 100%;
+    min-height: 100vh;
+    width: 100%;
+    align-items: center;
+}
+
+.authentication-wrapper.authentication-basic {
+    align-items: center;
+}
+
+.authentication-inner {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+@media (max-width: 575.98px) {
+    .authentication-wrapper.authentication-basic .authentication-inner {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use $MODULE_NAMESPACE$\$STUDLY_NAME$\Http\Controllers\$STUDLY_NAME$Controller;
+
+/*
+|--------------------------------------------------------------------------
+| $STUDLY_NAME$ Module Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your $STUDLY_NAME$ module.
+| You can add middleware, prefix, or customize as needed per module.
+|
+*/
+
+Route::middleware(['web', 'auth'])->prefix('$LOWER_NAME$')->name('$LOWER_NAME$.')->group(function () {
+    // Index - List all items
+    Route::get('/', [$STUDLY_NAME$Controller::class, 'index'])->name('index');
+
+    // Create - Show create form (modal)
+    Route::get('/create', [$STUDLY_NAME$Controller::class, 'create'])->name('create');
+
+    // Store - Save new item
+    Route::post('/', [$STUDLY_NAME$Controller::class, 'store'])->name('store');
+
+    // Bulk Destroy - Delete multiple items (must be before show route to avoid conflict)
+    Route::delete('/bulk-destroy', [$STUDLY_NAME$Controller::class, 'bulkDestroy'])->name('bulk-destroy');
+
+    // Show - Display single item (modal)
+    Route::get('/{$LOWER_NAME$}', [$STUDLY_NAME$Controller::class, 'show'])->name('show');
+
+    // Edit - Show edit form (modal)
+    Route::get('/{$LOWER_NAME$}/edit', [$STUDLY_NAME$Controller::class, 'edit'])->name('edit');
+
+    // Update - Update existing item
+    Route::put('/{$LOWER_NAME$}', [$STUDLY_NAME$Controller::class, 'update'])->name('update');
+    Route::patch('/{$LOWER_NAME$}', [$STUDLY_NAME$Controller::class, 'update']);
+
+    // Destroy - Delete single item
+    Route::delete('/{$LOWER_NAME$}', [$STUDLY_NAME$Controller::class, 'destroy'])->name('destroy');
+});

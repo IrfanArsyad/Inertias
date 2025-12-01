@@ -1,0 +1,9 @@
+{
+    "Test": true,
+    "Dashboard": true,
+    "TestProduct": true,
+    "Product": true,
+    "Permission": true,
+    "Auth": true,
+    "User": true
+}
