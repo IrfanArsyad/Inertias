@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Permission\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -8,6 +10,8 @@ use App\Models\Module;
 use Emargareten\InertiaModal\Modal;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Modules\Permission\Http\Requests\StoreRoleRequest;
+use Modules\Permission\Http\Requests\UpdateRoleRequest;
 
 class RoleController extends Controller
 {
@@ -89,20 +93,9 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name',
-            'display_name' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'active' => 'boolean',
-            'read' => 'nullable|array',
-            'create' => 'nullable|array',
-            'update' => 'nullable|array',
-            'delete' => 'nullable|array',
-        ]);
-
-        Role::create($validated);
+        Role::create($request->validated());
 
         return redirect()->route('permission.roles.index')
             ->with('success', 'Role created successfully!');
@@ -167,7 +160,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRoleRequest $request, $id)
     {
         $role = Role::findOrFail($id);
 
@@ -177,18 +170,7 @@ class RoleController extends Controller
                 ->with('error', 'Administrator role cannot be modified.');
         }
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name,' . $id,
-            'display_name' => 'nullable|string|max:255',
-            'description' => 'nullable|string',
-            'active' => 'boolean',
-            'read' => 'nullable|array',
-            'create' => 'nullable|array',
-            'update' => 'nullable|array',
-            'delete' => 'nullable|array',
-        ]);
-
-        $role->update($validated);
+        $role->update($request->validated());
 
         return redirect()->route('permission.roles.index')
             ->with('success', 'Role updated successfully!');

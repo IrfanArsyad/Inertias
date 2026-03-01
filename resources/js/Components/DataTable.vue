@@ -71,10 +71,11 @@
                         </td>
                     </tr>
                     <tr v-else-if="!items || items.length === 0">
-                        <td :colspan="totalColumns" class="text-center py-4">
+                        <td :colspan="totalColumns" class="text-center py-5">
                             <div class="text-muted">
-                                <i class="mdi mdi-database-off-outline mdi-48px d-block mb-2"></i>
-                                {{ emptyText }}
+                                <i class="mdi mdi-database-off-outline d-block mb-2" style="font-size: 3rem;"></i>
+                                <h6 class="mt-3 mb-1">{{ emptyTitle }}</h6>
+                                <p class="text-muted mb-0">{{ emptyText }}</p>
                             </div>
                         </td>
                     </tr>
@@ -153,18 +154,39 @@
 
         <!-- Pagination -->
         <div class="card-footer" v-if="pagination && !loading">
-            <Pagination 
+            <Pagination
                 :data="pagination"
                 @page-changed="handlePageChange"
             />
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" ref="deleteModalRef" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center pt-0">
+                    <i class="mdi mdi-alert-circle-outline text-warning" style="font-size: 3.5rem;"></i>
+                    <h5 class="mt-2 mb-1">Are you sure?</h5>
+                    <p class="text-muted mb-0">This action cannot be undone.</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pt-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" @click="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { Link, router } from '@inertiajs/vue3';
 import { debounce } from 'lodash';
+import { Modal } from 'bootstrap';
 import Pagination from './Pagination.vue';
 
 const props = defineProps({
@@ -206,6 +228,10 @@ const props = defineProps({
         type: String,
         default: 'No data available'
     },
+    emptyTitle: {
+        type: String,
+        default: 'No Data Found'
+    },
     createRoute: {
         type: String,
         default: null
@@ -242,6 +268,22 @@ const search = ref('');
 const sortKey = ref('');
 const sortOrder = ref('asc');
 const selected = ref([]);
+const deleteModalRef = ref(null);
+let deleteModal = null;
+const pendingDeleteItem = ref(null);
+const pendingDeleteIndex = ref(null);
+
+onMounted(() => {
+    if (deleteModalRef.value) {
+        deleteModal = new Modal(deleteModalRef.value);
+    }
+});
+
+onBeforeUnmount(() => {
+    if (deleteModal) {
+        deleteModal.dispose();
+    }
+});
 
 const hasActions = computed(() => {
     return props.editRoute || props.showRoute || props.deleteRoute;
@@ -290,16 +332,34 @@ const handleSelect = () => {
 };
 
 const handleDelete = (item, index) => {
-    if (confirm('Are you sure you want to delete this item?')) {
-        const key = getItemKey(item, index);
-        const url = typeof props.deleteRoute === 'function'
-            ? props.deleteRoute(item)
-            : `${props.deleteRoute}/${key}`;
-
-        if (emit('delete', item, index) !== false) {
-            router.delete(url);
-        }
+    pendingDeleteItem.value = item;
+    pendingDeleteIndex.value = index;
+    if (deleteModal) {
+        deleteModal.show();
     }
+};
+
+const confirmDelete = () => {
+    const item = pendingDeleteItem.value;
+    const index = pendingDeleteIndex.value;
+
+    if (!item) return;
+
+    const key = getItemKey(item, index);
+    const url = typeof props.deleteRoute === 'function'
+        ? props.deleteRoute(item)
+        : `${props.deleteRoute}/${key}`;
+
+    if (deleteModal) {
+        deleteModal.hide();
+    }
+
+    if (emit('delete', item, index) !== false) {
+        router.delete(url);
+    }
+
+    pendingDeleteItem.value = null;
+    pendingDeleteIndex.value = null;
 };
 
 const getItemKey = (item, index) => {

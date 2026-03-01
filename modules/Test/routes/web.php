@@ -7,35 +7,31 @@ use Modules\Test\Http\Controllers\TestController;
 |--------------------------------------------------------------------------
 | Test Module Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your Test module.
-| You can add middleware, prefix, or customize as needed per module.
-|
 */
 
-Route::middleware(['web'])->prefix('test')->name('test.')->group(function () {
-    // Index - List all items
-    Route::get('/', [TestController::class, 'index'])->name('index');
+Route::middleware(['web', 'auth'])->prefix('test')->name('test.')->group(function () {
+    // Read
+    Route::middleware('permission:test,read')->group(function () {
+        Route::get('/', [TestController::class, 'index'])->name('index');
+        Route::get('/{test}', [TestController::class, 'show'])->name('show');
+    });
 
-    // Create - Show create form
-    Route::get('/create', [TestController::class, 'create'])->name('create');
+    // Create
+    Route::middleware('permission:test,create')->group(function () {
+        Route::get('/create', [TestController::class, 'create'])->name('create');
+        Route::post('/', [TestController::class, 'store'])->name('store');
+    });
 
-    // Store - Save new item
-    Route::post('/', [TestController::class, 'store'])->name('store');
+    // Update
+    Route::middleware('permission:test,update')->group(function () {
+        Route::get('/{test}/edit', [TestController::class, 'edit'])->name('edit');
+        Route::put('/{test}', [TestController::class, 'update'])->name('update');
+        Route::patch('/{test}', [TestController::class, 'update']);
+    });
 
-    // Show - Display single item
-    Route::get('/{test}', [TestController::class, 'show'])->name('show');
-
-    // Edit - Show edit form
-    Route::get('/{test}/edit', [TestController::class, 'edit'])->name('edit');
-
-    // Update - Update existing item
-    Route::put('/{test}', [TestController::class, 'update'])->name('update');
-    Route::patch('/{test}', [TestController::class, 'update']);
-
-    // Destroy - Delete single item
-    Route::delete('/{test}', [TestController::class, 'destroy'])->name('destroy');
-
-    // Bulk Destroy - Delete multiple items
-    Route::delete('/bulk-destroy', [TestController::class, 'bulkDestroy'])->name('bulk-destroy');
+    // Delete
+    Route::middleware('permission:test,delete')->group(function () {
+        Route::delete('/bulk-destroy', [TestController::class, 'bulkDestroy'])->name('bulk-destroy');
+        Route::delete('/{test}', [TestController::class, 'destroy'])->name('destroy');
+    });
 });

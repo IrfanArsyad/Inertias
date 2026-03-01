@@ -14,5 +14,7 @@ use Modules\Dashboard\Http\Controllers\DashboardController;
 
 // Protected routes (require authentication)
 Route::middleware('auth')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])
+        ->middleware('permission:dashboard,read')
+        ->name('dashboard');
 });

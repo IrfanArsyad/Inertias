@@ -215,24 +215,32 @@
                             type="success"
                             :message="$page.props.flash.success"
                             dismissible
+                            auto-dismiss
+                            :auto-dismiss-delay="5000"
                         />
                         <Alert
                             v-if="$page.props.flash.error"
                             type="danger"
                             :message="$page.props.flash.error"
                             dismissible
+                            auto-dismiss
+                            :auto-dismiss-delay="8000"
                         />
                         <Alert
                             v-if="$page.props.flash.warning"
                             type="warning"
                             :message="$page.props.flash.warning"
                             dismissible
+                            auto-dismiss
+                            :auto-dismiss-delay="5000"
                         />
                         <Alert
                             v-if="$page.props.flash.info"
                             type="info"
                             :message="$page.props.flash.info"
                             dismissible
+                            auto-dismiss
+                            :auto-dismiss-delay="5000"
                         />
 
                         <!-- Page Content -->

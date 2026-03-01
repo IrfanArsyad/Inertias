@@ -1,793 +1,335 @@
 <template>
-    
-        <!-- Page Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h4 class="mb-1">eCommerce Dashboard</h4>
-                    <p class="text-muted mb-0">Welcome to your dashboard! Here's what's happening with your store today.</p>
-                </div>
-                <div>
-                    <button type="button" class="btn btn-primary">
-                        <i class="mdi mdi-plus me-1"></i>
-                        Generate Report
-                    </button>
-                </div>
-            </div>
-
-            <!-- Top Stats Cards -->
-            <div class="row">
-                <!-- Total Sales -->
-                <div class="col-xl-3 col-sm-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-start justify-content-between">
-                                <div class="content-left">
-                                    <span class="text-muted d-block mb-1">Total Sales</span>
-                                    <div class="d-flex align-items-center mb-1">
-                                        <h4 class="mb-0 me-2">42.5k</h4>
-                                        <span class="badge bg-label-success">+18%</span>
-                                    </div>
-                                    <small class="mb-0">Last week analytics</small>
-                                </div>
-                                <div class="avatar">
-                                    <span class="avatar-initial rounded bg-label-primary">
-                                        <i class="mdi mdi-chart-timeline-variant mdi-24px"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Row 1: Welcome Banner + Mini Stat Cards -->
+    <div class="row">
+        <!-- Welcome Card -->
+        <div class="col-xl-5 col-md-12 mb-4">
+            <div class="card h-100" style="background: linear-gradient(135deg, #696cff 0%, #8592ff 100%);">
+                <div class="card-body text-white d-flex align-items-center">
+                    <div class="me-auto">
+                        <h4 class="text-white mb-1">Welcome back, {{ userName }}! 🎉</h4>
+                        <p class="mb-2 text-white-50">
+                            You have <strong class="text-white">{{ stats.total_users }}</strong> total users in the system.
+                        </p>
+                        <Link href="/users" class="btn btn-sm btn-light">
+                            View Users
+                        </Link>
                     </div>
-                </div>
-
-                <!-- New Customers -->
-                <div class="col-xl-3 col-sm-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-start justify-content-between">
-                                <div class="content-left">
-                                    <span class="text-muted d-block mb-1">New Customers</span>
-                                    <div class="d-flex align-items-center mb-1">
-                                        <h4 class="mb-0 me-2">8,458</h4>
-                                        <span class="badge bg-label-success">+12%</span>
-                                    </div>
-                                    <small class="mb-0">Last week analytics</small>
-                                </div>
-                                <div class="avatar">
-                                    <span class="avatar-initial rounded bg-label-success">
-                                        <i class="mdi mdi-account-outline mdi-24px"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Total Profit -->
-                <div class="col-xl-3 col-sm-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-start justify-content-between">
-                                <div class="content-left">
-                                    <span class="text-muted d-block mb-1">Total Profit</span>
-                                    <div class="d-flex align-items-center mb-1">
-                                        <h4 class="mb-0 me-2">$28.5k</h4>
-                                        <span class="badge bg-label-success">+22%</span>
-                                    </div>
-                                    <small class="mb-0">Last week analytics</small>
-                                </div>
-                                <div class="avatar">
-                                    <span class="avatar-initial rounded bg-label-info">
-                                        <i class="mdi mdi-currency-usd mdi-24px"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- New Transactions -->
-                <div class="col-xl-3 col-sm-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-start justify-content-between">
-                                <div class="content-left">
-                                    <span class="text-muted d-block mb-1">New Transactions</span>
-                                    <div class="d-flex align-items-center mb-1">
-                                        <h4 class="mb-0 me-2">2,450</h4>
-                                        <span class="badge bg-label-danger">-8%</span>
-                                    </div>
-                                    <small class="mb-0">Last week analytics</small>
-                                </div>
-                                <div class="avatar">
-                                    <span class="avatar-initial rounded bg-label-warning">
-                                        <i class="mdi mdi-currency-usd-circle mdi-24px"></i>
-                                    </span>
-                                </div>
-                            </div>
+                    <div class="d-none d-sm-block">
+                        <div class="avatar avatar-xl rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                            <span class="text-white fw-bold" style="font-size: 2rem;">{{ userInitials }}</span>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Ratings & Sessions -->
-            <div class="row">
-                <!-- Ratings -->
-                <div class="col-md-6 col-xl-4 mb-4">
+        <!-- Mini Stat Cards -->
+        <div class="col-xl-7 col-md-12 mb-4">
+            <div class="row h-100">
+                <div class="col-sm-4 mb-4 mb-xl-0">
                     <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="card-title m-0 me-2">Ratings</h5>
-                            <div class="dropdown">
-                                <button class="btn p-0" type="button" data-bs-toggle="dropdown">
-                                    <i class="mdi mdi-dots-vertical mdi-24px"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="d-flex flex-column">
-                                    <h1 class="mb-1">8.14k</h1>
-                                    <span class="text-muted">Total Reviews</span>
-                                </div>
-                                <span class="badge bg-label-success">+15.6%</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <i class="mdi mdi-star text-warning mdi-24px"></i>
-                                <i class="mdi mdi-star text-warning mdi-24px"></i>
-                                <i class="mdi mdi-star text-warning mdi-24px"></i>
-                                <i class="mdi mdi-star text-warning mdi-24px"></i>
-                                <i class="mdi mdi-star-outline text-muted mdi-24px"></i>
-                            </div>
-                            <div class="mb-2">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>5 star</span>
-                                    <span>72%</span>
-                                </div>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-warning" style="width: 72%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>4 star</span>
-                                    <span>18%</span>
-                                </div>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-warning" style="width: 18%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="d-flex justify-content-between mb-1">
-                                    <span>3 star</span>
-                                    <span>8%</span>
-                                </div>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-warning" style="width: 8%"></div>
-                                </div>
-                            </div>
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
+                            <span class="badge rounded-pill bg-label-success p-2 mb-2">
+                                <i class="mdi mdi-check-decagram-outline mdi-24px"></i>
+                            </span>
+                            <h4 class="mb-0">{{ stats.verified_users }}</h4>
+                            <small class="text-muted">Verified</small>
                         </div>
                     </div>
                 </div>
-
-                <!-- Sessions -->
-                <div class="col-md-6 col-xl-4 mb-4">
+                <div class="col-sm-4 mb-4 mb-xl-0">
                     <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="card-title m-0 me-2">Sessions</h5>
-                            <div class="dropdown">
-                                <button class="btn p-0" type="button" data-bs-toggle="dropdown">
-                                    <i class="mdi mdi-dots-vertical mdi-24px"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <div class="d-flex flex-column">
-                                    <h1 class="mb-1">12.2k</h1>
-                                    <span class="text-muted">Active Users</span>
-                                </div>
-                                <span class="badge bg-label-danger">-25.5%</span>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Mobile</span>
-                                    <span class="fw-semibold">6.2k</span>
-                                </div>
-                                <div class="progress mb-2" style="height: 6px;">
-                                    <div class="progress-bar bg-primary" style="width: 51%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Desktop</span>
-                                    <span class="fw-semibold">4.5k</span>
-                                </div>
-                                <div class="progress mb-2" style="height: 6px;">
-                                    <div class="progress-bar bg-success" style="width: 37%"></div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Tablet</span>
-                                    <span class="fw-semibold">1.5k</span>
-                                </div>
-                                <div class="progress" style="height: 6px;">
-                                    <div class="progress-bar bg-info" style="width: 12%"></div>
-                                </div>
-                            </div>
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
+                            <span class="badge rounded-pill bg-label-warning p-2 mb-2">
+                                <i class="mdi mdi-alert-circle-outline mdi-24px"></i>
+                            </span>
+                            <h4 class="mb-0">{{ stats.unverified_users }}</h4>
+                            <small class="text-muted">Unverified</small>
                         </div>
                     </div>
                 </div>
-
-                <!-- Weekly Earning -->
-                <div class="col-xl-4 col-md-6 mb-4">
+                <div class="col-sm-4">
                     <div class="card h-100">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between">
-                                <h5 class="mb-1">Weekly Earning</h5>
-                                <span class="badge bg-label-success">+62%</span>
-                            </div>
-                            <p class="card-subtitle">Mobiles & Computers</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <span class="d-flex align-items-center">
-                                        <i class="mdi mdi-circle mdi-12px text-primary me-2"></i>
-                                        <span>Mobiles</span>
-                                    </span>
-                                    <span class="fw-semibold">24</span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <span class="d-flex align-items-center">
-                                        <i class="mdi mdi-circle mdi-12px text-success me-2"></i>
-                                        <span>Tablets</span>
-                                    </span>
-                                    <span class="fw-semibold">12</span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <span class="d-flex align-items-center">
-                                        <i class="mdi mdi-circle mdi-12px text-info me-2"></i>
-                                        <span>Accessories</span>
-                                    </span>
-                                    <span class="fw-semibold">50</span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between">
-                                    <span class="d-flex align-items-center">
-                                        <i class="mdi mdi-circle mdi-12px text-warning me-2"></i>
-                                        <span>Computers</span>
-                                    </span>
-                                    <span class="fw-semibold">38</span>
-                                </div>
-                            </div>
-                            <div class="border-top pt-3">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="mb-0">Total</h6>
-                                    <h6 class="mb-0 text-primary">$23.5k</h6>
-                                </div>
-                            </div>
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center text-center">
+                            <span class="badge rounded-pill bg-label-danger p-2 mb-2">
+                                <i class="mdi mdi-account-off-outline mdi-24px"></i>
+                            </span>
+                            <h4 class="mb-0">{{ stats.users_without_role }}</h4>
+                            <small class="text-muted">No Role</small>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- Sales & Activity -->
-            <div class="row">
-                <!-- Sales by Countries -->
-                <div class="col-xl-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="card-title m-0 me-2">Sales by Countries</h5>
-                            <div class="dropdown">
-                                <button class="btn p-0" type="button" data-bs-toggle="dropdown">
-                                    <i class="mdi mdi-dots-vertical mdi-24px"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="javascript:void(0);">Last 28 Days</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <ul class="p-0 m-0">
-                                <li class="d-flex align-items-center mb-4">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                        <i class="fis fi fi-us rounded-circle fs-2"></i>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                            <h6 class="mb-0">United States</h6>
-                                            <small class="text-muted">894k</small>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <span class="fw-semibold">$25.8k</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="d-flex align-items-center mb-4">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                        <i class="fis fi fi-br rounded-circle fs-2"></i>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                            <h6 class="mb-0">Brazil</h6>
-                                            <small class="text-muted">645k</small>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <span class="fw-semibold">$16.2k</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="d-flex align-items-center mb-4">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                        <i class="fis fi fi-au rounded-circle fs-2"></i>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                            <h6 class="mb-0">Australia</h6>
-                                            <small class="text-muted">148k</small>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <span class="fw-semibold">$12.5k</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="d-flex align-items-center">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                        <i class="fis fi fi-in rounded-circle fs-2"></i>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                            <h6 class="mb-0">India</h6>
-                                            <small class="text-muted">234k</small>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <span class="fw-semibold">$8.7k</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+    <!-- Row 2: Stats Cards -->
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-4">
+            <StatisticsCard
+                subtitle="Total Users"
+                :value="stats.total_users"
+                icon="mdi mdi-account-group-outline mdi-24px"
+                variant="primary"
+            />
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-4">
+            <StatisticsCard
+                subtitle="New This Month"
+                :value="stats.new_users_this_month"
+                icon="mdi mdi-account-plus-outline mdi-24px"
+                variant="success"
+                :trend="growthTrendLabel"
+            />
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-4">
+            <StatisticsCard
+                subtitle="Verified Rate"
+                :value="stats.verification_rate + '%'"
+                icon="mdi mdi-shield-check-outline mdi-24px"
+                variant="info"
+                :format-number="false"
+            />
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-4">
+            <StatisticsCard
+                subtitle="Active Roles"
+                :value="stats.total_roles"
+                icon="mdi mdi-key-outline mdi-24px"
+                variant="warning"
+            />
+        </div>
+    </div>
+
+    <!-- Row 3: Charts -->
+    <div class="row">
+        <!-- Role Distribution -->
+        <div class="col-md-6 col-xl-5 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Role Distribution</h5>
                 </div>
-
-                <!-- Activity Timeline -->
-                <div class="col-xl-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="card-title m-0 me-2">Activity Timeline</h5>
-                            <div class="dropdown">
-                                <button class="btn p-0" type="button" data-bs-toggle="dropdown">
-                                    <i class="mdi mdi-dots-vertical mdi-24px"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="javascript:void(0);">View All</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <ul class="timeline ms-1 mb-0">
-                                <li class="timeline-item timeline-item-transparent ps-4">
-                                    <span class="timeline-point timeline-point-primary"></span>
-                                    <div class="timeline-event">
-                                        <div class="timeline-header mb-1">
-                                            <h6 class="mb-0">12 Invoices have been paid</h6>
-                                            <small class="text-muted">12 min ago</small>
-                                        </div>
-                                        <p class="mb-2">Invoices have been paid to the company</p>
-                                    </div>
-                                </li>
-                                <li class="timeline-item timeline-item-transparent ps-4">
-                                    <span class="timeline-point timeline-point-success"></span>
-                                    <div class="timeline-event">
-                                        <div class="timeline-header mb-1">
-                                            <h6 class="mb-0">Client Meeting</h6>
-                                            <small class="text-muted">45 min ago</small>
-                                        </div>
-                                        <p class="mb-2">Project meeting with john @10:15am</p>
-                                    </div>
-                                </li>
-                                <li class="timeline-item timeline-item-transparent ps-4">
-                                    <span class="timeline-point timeline-point-info"></span>
-                                    <div class="timeline-event">
-                                        <div class="timeline-header mb-1">
-                                            <h6 class="mb-0">Create a new project</h6>
-                                            <small class="text-muted">2 day ago</small>
-                                        </div>
-                                        <p class="mb-2">Add files to new design folder</p>
-                                    </div>
-                                </li>
-                                <li class="timeline-item timeline-item-transparent ps-4">
-                                    <span class="timeline-point timeline-point-warning"></span>
-                                    <div class="timeline-event">
-                                        <div class="timeline-header mb-1">
-                                            <h6 class="mb-0">Shared 2 New Project Files</h6>
-                                            <small class="text-muted">3 day ago</small>
-                                        </div>
-                                        <p class="mb-0">Sent by Mollie Dixon</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Transactions -->
-                <div class="col-xl-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="card-title m-0 me-2">Transactions</h5>
-                            <div class="dropdown">
-                                <button class="btn p-0" type="button" data-bs-toggle="dropdown">
-                                    <i class="mdi mdi-dots-vertical mdi-24px"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="javascript:void(0);">View All</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <ul class="p-0 m-0">
-                                <li class="d-flex mb-4">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                        <div class="avatar-initial bg-label-success rounded">
-                                            <i class="mdi mdi-trending-up mdi-24px"></i>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                            <h6 class="mb-0">Paypal</h6>
-                                            <small class="text-muted">Received Money</small>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <h6 class="mb-0 text-success">+$24,820</h6>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="d-flex mb-4">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                        <div class="avatar-initial bg-label-warning rounded">
-                                            <i class="mdi mdi-credit-card mdi-24px"></i>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                            <h6 class="mb-0">Credit Card</h6>
-                                            <small class="text-muted">Digital Ocean</small>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <h6 class="mb-0 text-danger">-$1,250</h6>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="d-flex mb-4">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                        <div class="avatar-initial bg-label-info rounded">
-                                            <i class="mdi mdi-cash mdi-24px"></i>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                            <h6 class="mb-0">Mastercard</h6>
-                                            <small class="text-muted">Netflix Subscription</small>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <h6 class="mb-0 text-danger">-$99</h6>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="d-flex">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                        <div class="avatar-initial bg-label-primary rounded">
-                                            <i class="mdi mdi-bank mdi-24px"></i>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                            <h6 class="mb-0">Transfer</h6>
-                                            <small class="text-muted">Refund</small>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                            <h6 class="mb-0 text-success">+$8,934</h6>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                <div class="card-body">
+                    <ApexChart
+                        v-if="roleDistribution.length > 0"
+                        type="donut"
+                        :chart-options="donutOptions"
+                        :series="donutSeries"
+                        :height="300"
+                    />
+                    <div v-else class="text-center py-5 text-muted">
+                        <i class="mdi mdi-chart-arc mdi-48px d-block mb-2"></i>
+                        <p class="mb-0">No role data available</p>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Product Table -->
-            <div class="row">
-                <div class="col-12 mb-4">
-                    <div class="card">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                            <h5 class="card-title m-0 me-2">Top Products</h5>
-                            <div class="dropdown">
-                                <button class="btn p-0" type="button" data-bs-toggle="dropdown">
-                                    <i class="mdi mdi-dots-vertical mdi-24px"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="javascript:void(0);">View All</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Category</th>
-                                        <th>Stock</th>
-                                        <th>Revenue</th>
-                                        <th>Sales</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm me-3">
-                                                    <span class="avatar-initial rounded bg-label-primary">
-                                                        <i class="mdi mdi-cellphone"></i>
-                                                    </span>
-                                                </div>
-                                                <div>
-                                                    <h6 class="mb-0">iPhone 13 Pro</h6>
-                                                    <small class="text-muted">#SKU: IPN-13-PRO</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-label-primary">Mobile</span></td>
-                                        <td><span class="text-success">In Stock</span></td>
-                                        <td>$999,999</td>
-                                        <td>1,234</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm btn-icon" type="button" data-bs-toggle="dropdown">
-                                                    <i class="mdi mdi-dots-vertical"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="javascript:void(0);">
-                                                        <i class="mdi mdi-eye-outline me-1"></i> View
-                                                    </a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">
-                                                        <i class="mdi mdi-pencil-outline me-1"></i> Edit
-                                                    </a>
-                                                    <a class="dropdown-item text-danger" href="javascript:void(0);">
-                                                        <i class="mdi mdi-delete-outline me-1"></i> Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm me-3">
-                                                    <span class="avatar-initial rounded bg-label-success">
-                                                        <i class="mdi mdi-tshirt-crew"></i>
-                                                    </span>
-                                                </div>
-                                                <div>
-                                                    <h6 class="mb-0">Nike Air Max</h6>
-                                                    <small class="text-muted">#SKU: NAM-2024</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-label-success">Fashion</span></td>
-                                        <td><span class="text-warning">Low Stock</span></td>
-                                        <td>$149,999</td>
-                                        <td>987</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm btn-icon" type="button" data-bs-toggle="dropdown">
-                                                    <i class="mdi mdi-dots-vertical"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="javascript:void(0);">
-                                                        <i class="mdi mdi-eye-outline me-1"></i> View
-                                                    </a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">
-                                                        <i class="mdi mdi-pencil-outline me-1"></i> Edit
-                                                    </a>
-                                                    <a class="dropdown-item text-danger" href="javascript:void(0);">
-                                                        <i class="mdi mdi-delete-outline me-1"></i> Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm me-3">
-                                                    <span class="avatar-initial rounded bg-label-info">
-                                                        <i class="mdi mdi-laptop"></i>
-                                                    </span>
-                                                </div>
-                                                <div>
-                                                    <h6 class="mb-0">MacBook Pro M3</h6>
-                                                    <small class="text-muted">#SKU: MBP-M3-24</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span class="badge bg-label-info">Computer</span></td>
-                                        <td><span class="text-success">In Stock</span></td>
-                                        <td>$2,499,999</td>
-                                        <td>567</td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm btn-icon" type="button" data-bs-toggle="dropdown">
-                                                    <i class="mdi mdi-dots-vertical"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="javascript:void(0);">
-                                                        <i class="mdi mdi-eye-outline me-1"></i> View
-                                                    </a>
-                                                    <a class="dropdown-item" href="javascript:void(0);">
-                                                        <i class="mdi mdi-pencil-outline me-1"></i> Edit
-                                                    </a>
-                                                    <a class="dropdown-item text-danger" href="javascript:void(0);">
-                                                        <i class="mdi mdi-delete-outline me-1"></i> Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+        <!-- User Growth (Bar Chart) -->
+        <div class="col-md-6 col-xl-7 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">User Growth (Last 6 Months)</h5>
+                </div>
+                <div class="card-body">
+                    <ApexChart
+                        type="bar"
+                        :chart-options="barOptions"
+                        :series="barSeries"
+                        :height="300"
+                    />
                 </div>
             </div>
-    
+        </div>
+    </div>
+
+    <!-- Row 4: Recent Users Table -->
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Recent Users</h5>
+                    <Link href="/users" class="btn btn-sm btn-outline-primary">
+                        View All <i class="mdi mdi-arrow-right ms-1"></i>
+                    </Link>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="recentUsers.length === 0">
+                                <td colspan="4" class="text-center py-4 text-muted">No users found</td>
+                            </tr>
+                            <tr v-for="(user, index) in recentUsers" :key="user.id">
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="avatar avatar-sm rounded-circle d-flex align-items-center justify-content-center me-2"
+                                            :class="avatarColorClass(index)"
+                                            style="width: 38px; height: 38px; min-width: 38px;"
+                                        >
+                                            <span class="fw-semibold" style="font-size: 0.875rem;">{{ user.initials }}</span>
+                                        </div>
+                                        <div>
+                                            <span class="fw-semibold d-block">{{ user.name }}</span>
+                                            <small class="text-muted">{{ user.email }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span v-if="user.role" class="badge bg-label-primary">{{ user.role }}</span>
+                                    <span v-else class="text-muted">—</span>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge"
+                                        :class="user.verified ? 'bg-label-success' : 'bg-label-warning'"
+                                    >
+                                        {{ user.verified ? 'Verified' : 'Pending' }}
+                                    </span>
+                                </td>
+                                <td>{{ user.created_at }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import StatisticsCard from '@/Components/StatisticsCard.vue';
+import ApexChart from '@/Components/ApexChart.vue';
 
 const props = defineProps({
+    userName: {
+        type: String,
+        default: 'User',
+    },
     stats: {
         type: Object,
-        default: () => ({})
-    }
+        default: () => ({
+            total_users: 0,
+            new_users_this_month: 0,
+            verified_users: 0,
+            unverified_users: 0,
+            users_without_role: 0,
+            verification_rate: 0,
+            growth_percentage: 0,
+            total_roles: 0,
+        }),
+    },
+    roleDistribution: {
+        type: Array,
+        default: () => [],
+    },
+    recentUsers: {
+        type: Array,
+        default: () => [],
+    },
+    growthTrend: {
+        type: Array,
+        default: () => [],
+    },
 });
+
+// User initials from userName
+const userInitials = computed(() => {
+    const parts = props.userName.trim().split(/\s+/);
+    if (parts.length >= 2) {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+    return props.userName.substring(0, 2).toUpperCase();
+});
+
+// Growth trend label for stat card
+const growthTrendLabel = computed(() => {
+    const pct = props.stats.growth_percentage;
+    if (pct > 0) return `+${pct}%`;
+    if (pct < 0) return `${pct}%`;
+    return null;
+});
+
+// Avatar color rotation for recent users table
+const avatarColors = ['bg-label-primary', 'bg-label-success', 'bg-label-info', 'bg-label-warning', 'bg-label-danger'];
+const avatarColorClass = (index) => avatarColors[index % avatarColors.length];
+
+// Donut chart for role distribution
+const donutSeries = computed(() => props.roleDistribution.map(r => r.users_count));
+const donutOptions = computed(() => ({
+    labels: props.roleDistribution.map(r => r.name),
+    colors: ['#696cff', '#71dd37', '#03c3ec', '#ffab00', '#ff3e1d', '#8592a3'],
+    legend: {
+        position: 'bottom',
+    },
+    plotOptions: {
+        pie: {
+            donut: {
+                labels: {
+                    show: true,
+                    total: {
+                        show: true,
+                        label: 'Total Users',
+                    },
+                },
+            },
+        },
+    },
+    dataLabels: {
+        enabled: false,
+    },
+}));
+
+// Bar chart for growth trend
+const barSeries = computed(() => ([
+    {
+        name: 'New Users',
+        data: props.growthTrend.map(g => g.count),
+    },
+]));
+const barOptions = computed(() => ({
+    chart: {
+        toolbar: { show: false },
+    },
+    xaxis: {
+        categories: props.growthTrend.map(g => g.month),
+    },
+    colors: ['#696cff'],
+    plotOptions: {
+        bar: {
+            borderRadius: 6,
+            columnWidth: '45%',
+            distributed: true,
+        },
+    },
+    fill: {
+        type: 'gradient',
+        gradient: {
+            shade: 'light',
+            type: 'vertical',
+            shadeIntensity: 0.3,
+            opacityFrom: 1,
+            opacityTo: 0.8,
+        },
+    },
+    legend: {
+        show: false,
+    },
+    dataLabels: {
+        enabled: false,
+    },
+    grid: {
+        borderColor: '#f1f1f1',
+    },
+}));
 </script>
-
-<style scoped>
-/* Card Hover Effects */
-.card {
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
-}
-
-/* Statistics Cards Styling */
-.avatar-initial {
-    font-size: 1.5rem;
-}
-
-/* Timeline Styles */
-.timeline {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    position: relative;
-}
-
-.timeline-item {
-    position: relative;
-    padding-bottom: 1.5rem;
-}
-
-.timeline-item:not(:last-child)::before {
-    content: '';
-    position: absolute;
-    left: 0.4375rem;
-    top: 0;
-    width: 2px;
-    height: 100%;
-    background-color: #e7eaf0;
-}
-
-.timeline-point {
-    position: absolute;
-    left: 0;
-    top: 0.25rem;
-    width: 0.875rem;
-    height: 0.875rem;
-    border-radius: 50%;
-    background-color: #fff;
-    border: 2px solid;
-}
-
-.timeline-point-primary {
-    border-color: #696cff;
-}
-
-.timeline-point-success {
-    border-color: #71dd37;
-}
-
-.timeline-point-info {
-    border-color: #03c3ec;
-}
-
-.timeline-point-warning {
-    border-color: #ffab00;
-}
-
-/* Avatar Styles */
-.avatar {
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.avatar-sm {
-    width: 2rem;
-    height: 2rem;
-}
-
-.avatar-initial {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-}
-
-/* Table Styles */
-.table th {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #566a7f;
-    padding: 0.75rem 1.25rem;
-}
-
-.table td {
-    padding: 0.75rem 1.25rem;
-    vertical-align: middle;
-}
-
-.table-hover tbody tr:hover {
-    background-color: rgba(67, 89, 113, 0.04);
-}
-
-/* Flag Icons */
-.fis {
-    font-size: 2rem;
-}
-
-/* List Styles */
-ul {
-    list-style: none;
-}
-</style>

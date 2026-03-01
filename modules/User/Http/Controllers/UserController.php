@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\User\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -8,9 +10,10 @@ use App\Models\Role;
 use Emargareten\InertiaModal\Modal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
+use Modules\User\Http\Requests\StoreUserRequest;
+use Modules\User\Http\Requests\UpdateUserRequest;
+use Modules\User\Http\Requests\BulkDeleteUserRequest;
 
 class UserController extends Controller
 {
@@ -65,15 +68,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Password::defaults()],
-            'role_id' => ['nullable', 'exists:roles,id'],
-            'email_verified' => ['boolean'],
-        ]);
+        $validated = $request->validated();
 
         $user = User::create([
             'name' => $validated['name'],
@@ -133,15 +130,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'password' => ['nullable', 'confirmed', Password::defaults()],
-            'role_id' => ['nullable', 'exists:roles,id'],
-            'email_verified' => ['boolean'],
-        ]);
+        $validated = $request->validated();
 
         $user->name = $validated['name'];
         $user->email = $validated['email'];
@@ -193,12 +184,9 @@ class UserController extends Controller
     /**
      * Bulk destroy multiple users.
      */
-    public function bulkDestroy(Request $request)
+    public function bulkDestroy(BulkDeleteUserRequest $request)
     {
-        $validated = $request->validate([
-            'ids' => ['required', 'array'],
-            'ids.*' => ['integer', 'exists:users,id'],
-        ]);
+        $validated = $request->validated();
 
         // Get Administrator role
         $adminRole = Role::whereRaw('LOWER(name) = ?', ['administrator'])->first();

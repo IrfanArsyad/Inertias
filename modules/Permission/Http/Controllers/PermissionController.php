@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Permission\Http\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -7,6 +9,8 @@ use App\Models\Module;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Modules\Permission\Http\Requests\StorePermissionRequest;
+use Modules\Permission\Http\Requests\UpdatePermissionRequest;
 
 class PermissionController extends Controller
 {
@@ -94,16 +98,9 @@ class PermissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePermissionRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:modules,name',
-            'label' => 'required|string|max:255',
-            'icon' => 'nullable|string|max:255',
-            'url' => 'nullable|string|max:255',
-            'active' => 'boolean',
-        ]);
-
+        $validated = $request->validated();
         $validated['order'] = Module::max('order') + 1;
 
         Module::create($validated);
@@ -174,19 +171,11 @@ class PermissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePermissionRequest $request, $id)
     {
         $module = Module::findOrFail($id);
 
-        $validated = $request->validate([
-            'name' => 'sometimes|string|max:255|unique:modules,name,' . $id,
-            'label' => 'sometimes|string|max:255',
-            'icon' => 'nullable|string|max:255',
-            'url' => 'nullable|string|max:255',
-            'active' => 'boolean',
-        ]);
-
-        $module->update($validated);
+        $module->update($request->validated());
 
         return redirect()->route('permission.index')
             ->with('success', 'Permission updated successfully!');
